@@ -12,3 +12,4 @@ del *.sdf /f /S
 del *.ipch /f /S
 del *.tlog /f /S
 del *.log /f /S
+del *.db /f /S

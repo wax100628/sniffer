@@ -33,11 +33,9 @@ bool Utility::initPcap()
 	int size = mNetCards.size();
 	if (size <= 0)
 		return false;
-
-	//this->mPocket.szSrcIP.Append(mNetCards.at(0).friendly_name);
-	//this->mPocket.szSrcPort.Append(mNetCards.at(1).friendly_name);
-
-	for (int i = 0; i < size; ++i) {
+  
+  //list all Netcards
+  for (int i = 0; i < size; ++i) {
 		std::wstring name = mNetCards.at(i).friendly_name();
 		szCardsName.push_back(name.c_str());
 	}
@@ -57,8 +55,8 @@ void Utility::startCapture(int cardIndex)
 
 	LPDWORD capThread = NULL;
 	mCurCard = mNetCards.at(cardIndex).name();
-	//AfxMessageBox(CString(mNetCards.at(cardIndex).friendly_name().c_str()));
-
+	
+	//use new thread to handle cap
 	capThreadHandle = CreateThread(NULL, 0, capData, this, 0, capThread);
 }
 
@@ -92,9 +90,9 @@ DWORD WINAPI capData(LPVOID lpParameter)
 		curSniffer.sniff_loop([&](PDU& packet) {
 			try {
 				Tins::IP &ip = packet.rfind_pdu<Tins::IP>();
-				//获取数据包大小
+				//get packet len
 				(utility->mPocket).lSize = ip.tot_len();
-				//获取协议类型
+				//get protocol type
 				CString proto;
 				//proto.Format(L"%d", ip.protocol());
 
@@ -144,7 +142,7 @@ DWORD WINAPI capData(LPVOID lpParameter)
 }
 
 
-//相关回调
+//relative callback
 void on_server_data(Stream& stream) {
 
 	match_results<Stream::payload_type::const_iterator> client_match; 
@@ -173,7 +171,7 @@ void on_server_data(Stream& stream) {
 		// Now print them
 		//std::cout << method << " http://" << host << url << " -> " << response_code << std::endl;
 		
-		//构造消息
+		//construct msg to send
 		CString szSrcPort, szDestPort, szUrl, szProtocol;
 
 		(utility->mPocket).szMethod = CString(method.c_str());
@@ -191,18 +189,14 @@ void on_server_data(Stream& stream) {
 		(utility->mPocket).szMethod = L"nul";
 	}
 
-	//构造消息
 	CString szSrcPort, szDestPort;
 	szSrcPort.Format(L"%d", stream.client_port());
 	szDestPort.Format(L"%d", stream.server_port());
 
-	//先清再用,然而清空变成NULL
-	//memset(&(utility->mPocket), 0, sizeof(utility->mPocket));
 	(utility->mPocket).szSrcIP = CString(stream.client_addr_v4().to_string().c_str());
 	(utility->mPocket).szDestIP = CString(stream.server_addr_v4().to_string().c_str());
 	(utility->mPocket).szSrcPort = szSrcPort;
 	(utility->mPocket).szDestPort = szDestPort;
-	//(utility->mPocket).lSize = stream.client_flow().total_buffered_bytes();
 	
 	SendMessage(utility->hTagWnd, WM_ADDITEM, (WPARAM)(&(utility->mPocket)), 0);
 

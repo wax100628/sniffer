@@ -34,7 +34,7 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
-	//自定义消息声明
+	//define msg
 	afx_msg LRESULT OnAddItem(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnAddCard(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
@@ -48,20 +48,24 @@ private:
 	//void initCBBtn();
 
 public:
-	Utility *utility;
-	CListCtrl mListView;
-
-	CComboBox mComboCards;
-	CButton mBtnStart;
-	CButton mBtnStop;
+	void copyToClipbrd(const CString& data);
+	void copyListItem(int cloumn);
 	afx_msg void OnBnClickedBtnstart();
 	afx_msg void OnBnClickedBtnstop();
 	afx_msg void OnNMRClickList1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnListmenuClearList();
 	afx_msg void OnListmenuCopyIP();
 	afx_msg void OnListmenuCopyUrl();
-	void copyToClipbrd(const CString& data);
-	void copyListItem(int cloumn);
 	afx_msg void OnListmenuExit();
+
+
+public:
+	Utility *utility;
+	CListCtrl mListView;
+
+	CComboBox mComboCards;
+	CButton mBtnStart;
+	CButton mBtnStop;
+	
 };
 

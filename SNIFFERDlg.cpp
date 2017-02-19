@@ -35,7 +35,7 @@ void CSnifferDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CSnifferDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	//自定义消息映射
+	//msg map
 	ON_MESSAGE(WM_ADDITEM, OnAddItem)
 	ON_MESSAGE(WM_ADDCARD, OnAddCard)
 	ON_BN_CLICKED(IDC_BTNSTART, &CSnifferDlg::OnBnClickedBtnstart)
@@ -108,17 +108,13 @@ HCURSOR CSnifferDlg::OnQueryDragIcon()
 
 LRESULT CSnifferDlg::OnAddItem(WPARAM wParam, LPARAM lParam)
 {
-	//获取消息
+	//get msg
 	Pocket *pocketRecved = reinterpret_cast<Pocket *>(wParam);
 	
-	//更新list control
+	//update list control
 	addLine(pocketRecved->szProtocol, pocketRecved->szSrcIP, pocketRecved->szSrcPort, \
 			pocketRecved->szDestIP, pocketRecved->szDestPort, \
 			pocketRecved->lSize, pocketRecved->szMethod, pocketRecved->szUrl);
-	
-	//释放堆
-	//if (pocketRecved)
-	//	delete pocketRecved;
 
 	return LRESULT();
 }
@@ -129,7 +125,7 @@ LRESULT CSnifferDlg::OnAddCard(WPARAM wParam, LPARAM lParam) {
 	mComboCards.SetCurSel(0);
 	std::vector<CString> *cards = reinterpret_cast<std::vector<CString> *>(wParam);
 	
-	//填充combox
+	//add netcards
 	int size = cards->size();
 	if (size > 0) {
 		for (int i = 0; i < size; ++i)
