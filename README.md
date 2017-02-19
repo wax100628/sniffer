@@ -1,10 +1,10 @@
-##Sniffer (Win)
+##Sniffer (Win MFC proj)
 **initial version**
 
 ##Features
 - capture TCP/UDP packet
 - list Http request/response
 
-##Third-party libs
+##Thanks to follow projects
 * libtins
 * winpcap
