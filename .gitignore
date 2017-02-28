@@ -1,0 +1,5 @@
+/x64/*
+SNIFFER*.db
+/Release/
+/ipch/
+/Debug/
