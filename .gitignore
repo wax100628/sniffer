@@ -1,5 +1,5 @@
-/x64/*
-SNIFFER*.db
-/Release/
-/ipch/
-/Debug/
+/sniff_proj/x64/*
+/sniff_proj/SNIFFER*.db
+/sniff_proj/Release/
+/sniff_proj/ipch/
+/sniff_proj/Debug/
